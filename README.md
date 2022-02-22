@@ -47,7 +47,7 @@ Install the dependencies:
 sudo apt-get update
 sudo apt-get upgrade
 sudo apt-get install -y fonts-wqy-zenhei python3-pip python3-smbus python3-serial build-essential python3-dev scons swig imagemagick libv4l-dev cmake git libjpeg-dev libtiff5-dev libjasper-dev wget libssl-dev ncurses-dev mosquitto nginx
-sudo pip install RPi.GPIO spidev rpi_ws281x
+sudo pip install RPi.GPIO spidev rpi_ws281x paho-mqtt
 ```
 
 ## Sources

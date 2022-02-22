@@ -8,6 +8,7 @@ import {throwIfInAngularZone} from '../util/operators';
 
 export type ContinueExecutionFn = () => void;
 export type ExecutionFn = (fn: ContinueExecutionFn) => void;
+
 export function observeInside<T>(executionFn: ExecutionFn): MonoTypeOperatorFunction<T> {
   return (source: Observable<T>): Observable<T> => {
     return new Observable((observer: Observer<T>): TeardownLogic => {
@@ -40,7 +41,7 @@ export class MessagingClient implements OnDestroy {
   }
 
   public publish(destination: string, payload: string): void {
-    this._mqttClient.publish(destination, payload, 0, false);
+    this._mqttClient.publish(destination, payload, 1, false);
   }
 
   public observe$(topic: string): Observable<mqtt.Message> {
@@ -67,7 +68,7 @@ export class MessagingClient implements OnDestroy {
         // Subscribe to the topic on the mqtt-client, but only if being the first subscription on that topic.
         if (this._subscriptionCounter.incrementAndGet(topic) === 1) {
           console.log('[msgc] subscribe:', topic);
-          this._mqttClient.subscribe(topic).then();
+          this._mqttClient.subscribe(topic, {qos: 1}).then();
         }
       });
 

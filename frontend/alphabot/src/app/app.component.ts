@@ -10,6 +10,8 @@ export class AppComponent {
   title = 'alphabot';
 
   constructor(messaging: MessagingClient) {
-    messaging.observe$("#").subscribe(message => console.log(message));
+    messaging.observe$("#").subscribe(message =>
+      console.log(message.destinationName + ' ' + message.qos + ' ' + message.payloadString),
+    );
   }
 }
