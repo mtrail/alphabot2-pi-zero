@@ -48,7 +48,7 @@ class PCA9685:
 	
   def setPWMFreq(self, freq):
     "Sets the PWM frequency"
-    prescaleval = 25000000.0    # 25MHz
+    prescaleval = 24576000.0    # 25MHz
     prescaleval /= 4096.0       # 12-bit
     prescaleval /= float(freq)
     prescaleval -= 1.0
@@ -82,7 +82,6 @@ class PCA9685:
     self.setPWM(channel, 0, pulse)
 
 if __name__=='__main__':
- 
   pwm = PCA9685(0x40, debug=True)
   pwm.setPWMFreq(50)
   pwm.setServoPulse(0,1500)
