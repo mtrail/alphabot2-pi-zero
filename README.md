@@ -84,7 +84,7 @@ Three url's are mapped:
 ```
 sudo cp -fr ~/alphabot2-pi-zero/setup/mosquitto.conf /etc/mosquitto/conf.d
 sudo systemctl restart mosquitto
-sudo cp -fr ~/alphabot2-pi-zero/setup/nginx.conf /etc/nginx/conf.d
+sudo cp -fr ~/alphabot2-pi-zero/setup/nginx.conf /etc/nginx
 sudo systemctl restart nginx
 ```
 
