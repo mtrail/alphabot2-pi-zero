@@ -31,6 +31,7 @@ decoder = IRDecoder()
 GPIO.setup(17, GPIO.IN)
 GPIO.add_event_detect(17, GPIO.BOTH, callback=_change)
 decoder.addKeyPressedListener(event_func)
+client.loop_start()
 
 while True:
     time.sleep(1)
