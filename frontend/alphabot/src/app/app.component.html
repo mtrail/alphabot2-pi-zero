@@ -1,5 +1,5 @@
 <div>Open console (F12)</div>
-<img src="./mjpeg"  alt="video"/>
+<img src="./mjpeg" alt="video"/>
 <mat-card>
   <mat-card-content class="joystick">
     <div class="joystick-left"
@@ -15,15 +15,27 @@
          (mousemove)="joystickRightMouseMove($event)"
     ></div>
   </mat-card-content>
+  <mat-card-content *ngFor="let b of motors; let i = index ; trackBy: indexTracker">
+    <h2>Motor {{i}}: {{motors[i]}}</h2>
+    <mat-slider
+      min="-100"
+      max="100"
+      step="1"
+      [value]="motors[i]"
+      [(ngModel)]="motors[i]"
+      (input)="onChangeMotor($event,i)">
+    </mat-slider>
+  </mat-card-content>
+
   <mat-card-content *ngFor="let b of servos; let i = index ; trackBy: indexTracker">
-    <h2>{{i < 2 ? 'Motor' : 'Servo'}} {{i}}: {{servos[i]}}</h2>
+    <h2>Servo {{i}}: {{servos[i]}}</h2>
     <mat-slider
       min="1000"
       max="2000"
       step="1"
       [value]="servos[i]"
       [(ngModel)]="servos[i]"
-      (input)="onChange($event,i)">
+      (input)="onChangeServo($event,i)">
     </mat-slider>
   </mat-card-content>
 </mat-card>
