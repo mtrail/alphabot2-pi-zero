@@ -1,2 +1,29 @@
 <div>Open console (F12)</div>
 <img src="./mjpeg"  alt="video"/>
+<mat-card>
+  <mat-card-content class="joystick">
+    <div class="joystick-left"
+         (mousedown)="joystickLeftMouseDown($event)"
+         (mouseup)="joystickLeftMouseUp($event)"
+         (mousemove)="joystickLeftMouseMove($event)"
+         (mouseleave)="joystickLeftMouseUp($event)"
+         (mouseenter)="joystickLeftMouseEnter($event)"
+    ></div>
+    <div class="joystick-right"
+         (mousedown)="joystickRightMouseDown($event)"
+         (mouseup)="joystickRightMouseUp($event)"
+         (mousemove)="joystickRightMouseMove($event)"
+    ></div>
+  </mat-card-content>
+  <mat-card-content *ngFor="let b of servos; let i = index ; trackBy: indexTracker">
+    <h2>{{i < 2 ? 'Motor' : 'Servo'}} {{i}}: {{servos[i]}}</h2>
+    <mat-slider
+      min="1000"
+      max="2000"
+      step="1"
+      [value]="servos[i]"
+      [(ngModel)]="servos[i]"
+      (input)="onChange($event,i)">
+    </mat-slider>
+  </mat-card-content>
+</mat-card>

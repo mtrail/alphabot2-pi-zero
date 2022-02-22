@@ -1,0 +1,21 @@
+:host {
+  .joystick {
+    display: flex;
+
+    & .joystick-left {
+      width: 50%;
+      height: 200px;
+      background-color: aqua;
+    }
+
+    & .joystick-right {
+      width: 50%;
+      height: 200px;
+      background-color: chartreuse;
+    }
+  }
+
+  mat-slider {
+    width: 100%;
+  }
+}

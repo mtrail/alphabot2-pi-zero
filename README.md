@@ -27,6 +27,8 @@ Raspberry Pi Imager (v1.7.1)
 Danach die Karte wieder in den alphabot einbauen
 
 Ich musste das Pi 2x starten danach (beim 1. boot verändert er das filesystem, also wenns nicht klappt einfach nach 2 minuten strom weg und nochmal booten)
+## Connect
+ssh pi@alphabot2
 
 ## Config
 
