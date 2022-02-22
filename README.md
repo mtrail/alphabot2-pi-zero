@@ -46,7 +46,7 @@ Install the dependencies:
 ```
 sudo apt-get update
 sudo apt-get upgrade
-sudo apt-get install -y fonts-wqy-zenhei python3-pip python3-smbus python3-serial build-essential python3-dev scons swig imagemagick libv4l-dev cmake git libjpeg-dev libtiff5-dev libjasper-dev wget libssl-dev ncurses-dev mosquitto
+sudo apt-get install -y fonts-wqy-zenhei python3-pip python3-smbus python3-serial build-essential python3-dev scons swig imagemagick libv4l-dev cmake git libjpeg-dev libtiff5-dev libjasper-dev wget libssl-dev ncurses-dev mosquitto nginx
 sudo pip install RPi.GPIO spidev rpi_ws281x
 ```
 
@@ -71,15 +71,21 @@ They are in /home/pi/alphabot2-pi-zero/examples
 # unzip rpi_ws281x-master.zip
 ```
 
-## Config mqtt server
+## Config mqtt server and webserver
 
 Start mqtt server (mosquitto) with listener on port 1883(tcp) and 8080(https/websocket).<br>
 This also serves the files in /home/pi/alphabot2-pi-zero/www on http://alphabot2.local:8080/ <br>
-So we can serve our ui there to controll the bot.
+So we can serve our ui there to controll the bot.<br>
+Three url's are mapped:
+- http://alphabot2.local:8080/ (ui for alphabot)
+- http://alphabot2.local:8080/mqtt (mqtt over websocket for ui)
+- http://alphabot2.local:8080/mjpeg (camera stream, if started)
 
 ```
 sudo cp -fr ~/alphabot2-pi-zero/setup/mosquitto.conf /etc/mosquitto/conf.d
 sudo systemctl restart mosquitto
+sudo cp -fr ~/alphabot2-pi-zero/setup/nginx.conf /etc/nginx/conf.d
+sudo systemctl restart nginx
 ```
 
 ## Test Camera
