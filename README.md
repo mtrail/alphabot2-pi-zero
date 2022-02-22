@@ -30,7 +30,7 @@ Ich musste das Pi 2x starten danach (beim 1. boot verändert er das filesystem, 
 
 ## Config
 
-sudo raspi-config <br>
+```sudo raspi-config``` <br>
 8 Update (raspi-config updaten) <br>
 3 Interface Options
 
@@ -60,7 +60,8 @@ make
 sudo make install
 ```
 
-You could download the original sources (we have fixed versions in this repo thanks to Kay, so this is not needed)
+You could download the original sources (we have fixed versions in this repo thanks to Kay, so this is not needed)<br>
+They are in /home/pi/alphabot2-pi-zero/examples
 
 ```
 # cd
