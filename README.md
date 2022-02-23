@@ -106,6 +106,15 @@ mjpg_streamer -o "output_http.so -p 8888" -i "input_uvc.so"
 mjpg_streamer -o "output_http.so -p 8888 -w /home/pi/mjpg-streamer/mjpg-streamer-experimental/www" -i "input_uvc.so"
 ```
 
+- Startup at pi-boot
+
+```
+sudo cp -fr ~/alphabot2-pi-zero/setup/mjpeg-streamer.service /lib/systemd/system
+sudo systemctl enable mjpeg-streamer.service
+sudo systemctl start mjpeg-streamer.service
+sudo systemctl status mjpeg-streamer.service
+```
+
 ## Justify Servos
 
 run this command to set the servos to their zero position:

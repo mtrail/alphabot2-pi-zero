@@ -1,0 +1,7 @@
+[Unit]
+Description=Mjpeg Streamer
+[Service]
+Type=simple
+ExecStart=mjpg_streamer -o "output_http.so -p 8888 -w /home/pi/mjpg-streamer/mjpg-streamer-experimental/www" -i "input_uvc.so"
+[Install]
+WantedBy=multi-user.target
