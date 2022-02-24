@@ -1,0 +1,12 @@
+{
+    "python.testing.pytestArgs": [
+        "--black"
+    ],
+    "editor.formatOnSave": true,
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "python.testing.cwd": ".",
+    "python.formatting.provider": "black",
+    "python.defaultInterpreterPath": "/home/pi/.cache/pypoetry/virtualenvs/alphabot2-pi-zero-oGBlEklM-py3.9/bin/python",
+    "restructuredtext.confPath": ""
+}

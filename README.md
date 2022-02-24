@@ -49,8 +49,10 @@ Install the dependencies:
 sudo apt-get update
 sudo apt-get upgrade
 sudo apt-get install -y fonts-wqy-zenhei python3-pip python3-smbus python3-serial build-essential python3-dev scons swig imagemagick libv4l-dev cmake git libjpeg-dev libtiff5-dev libjasper-dev wget libssl-dev ncurses-dev mosquitto nginx
-sudo pip install RPi.GPIO spidev rpi_ws281x paho-mqtt
+sudo pip install poetry
 ```
+
+NOTE: We don't need to install any Python Dependencies other than poetry.
 
 ## Sources
 
@@ -72,6 +74,32 @@ They are in /home/pi/alphabot2-pi-zero/examples
 # wget https://www.waveshare.com/w/upload/c/c3/Rpi_ws281x-master.zip
 # unzip rpi_ws281x-master.zip
 ```
+
+### New Dependency Management with Poetry (https://python-poetry.org/)
+
+There is a pyproject.toml file, that holds the projects python dependency definition (code deps as well as the development deps).
+
+To use poetry virtualenvs and dep management entirely, do after checkout:
+
+```
+> cd alphabot2-pi-zero
+> poetry install 
+```
+Now your setup is complete, to use the created virtalenv in your shell:
+
+```
+> poetry shell
+```
+
+To run anything in the virtualenv:
+
+```
+> poetry run python main.py
+```
+
+For additional hints consult the poetry website or ask kay 
+
+
 
 ## Config mqtt server and webserver
 
