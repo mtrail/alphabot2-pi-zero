@@ -124,6 +124,49 @@ run this command to set the servos to their zero position:
 
 Page with Infos: https://www.waveshare.com/wiki/AlphaBot2
 
+# VS Code Ide over SSH Setup
+
+## VS Code Install
+If you have VS code already installed, skip to next.
+
+For Mac/Win:
+Download and install from <br> 
+https://code.visualstudio.com/
+
+For Linux (also Pi):
+> sudo apt-get install code
+
+## Install necessary Plugins
+Open the Extensions Browser (Shift-(Ctrl/Cmd)-X)
+And search and install (or use a browser on the links)
+
+- Python <br>
+  https://marketplace.visualstudio.com/items?itemName=ms-python.python
+- Remote-SSH <br>
+  https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh-nightly
+
+## Create Connection
+prepare the Ssh Preauth Login with your public key.
+
+
+> ssh-copy-id pi@alphabot2.local
+
+Now check if you can login without password
+
+> ssh pi@alhabot2.local
+
+And now up to creating the session
+
+- Start VS Code
+- Go To Remote Explorer on (lefthand Menu, the Monitor(ssh) Icon)
+- Next to SSH Targets you will see a plus sign on mouseover, klick it
+- into the input popup enter 'ssh pi@alphabot2.local'
+
+A Directory Browser appears, choose the alphabot2-pi-zero remote folder.
+There will be some remote vs code server installation going on after your choice.
+
+Now you are good to go.
+
 # Architecture
 
 It has been a proven concept to use the same architecture for robots as for microservices, just in a smaller scope. So the main idea is to have a local message broker (ZMQ - Zero Message Queue for example) and then the sensors and actors communicate with each other over messages.
