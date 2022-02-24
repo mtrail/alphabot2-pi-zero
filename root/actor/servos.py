@@ -30,6 +30,8 @@ class PCA9685:
     __ALLLED_OFF_L = 0xFC
     __ALLLED_OFF_H = 0xFD
     frequency = 100
+    servo0 = 1500
+    servo1 = 1500
 
     def __init__(self, address=0x40, debug=False):
         self.bus = smbus.SMBus(1)
@@ -38,19 +40,23 @@ class PCA9685:
         if (self.debug):
             print("Reseting PCA9685")
         self.write(self.__MODE1, 0x00)
-        # self.write(0x00, 5) # PCA9685_RA_MODE1 PCA9685_MODE1_AI_BIT
+
+    def sleep(self):
+        self.write(self.__MODE1, 0x10)  # go to sleep
+
+    def apply_and_sleep_again(self):
+        self.write(self.__MODE1, 0x00)  # wake up
+        self.setServoPulse(0, self.servo0)
+        self.setServoPulse(1, self.servo1)
+        self.write(self.__MODE1, 0x10)  # go to sleep
 
     def write(self, reg, value):
         "Writes an 8-bit value to the specified register/address"
         self.bus.write_byte_data(self.address, reg, value)
-        if (self.debug):
-            print("I2C: Write 0x%02X to register 0x%02X" % (value, reg))
 
     def read(self, reg):
         "Read an unsigned byte from the I2C device"
         result = self.bus.read_byte_data(self.address, reg)
-        if (self.debug):
-            print("I2C: Device 0x%02X returned 0x%02X from reg 0x%02X" % (self.address, result & 0xFF, reg))
         return result
 
     def setPWMFreq(self, freq):
@@ -60,20 +66,14 @@ class PCA9685:
         prescaleval /= 4096.0  # 12-bit
         prescaleval /= float(freq)
         prescaleval -= 1.0
-        if (self.debug):
-            print("Setting PWM frequency to %d Hz" % freq)
-            print("Estimated pre-scale: %d" % prescaleval)
         prescale = math.floor(prescaleval + 0.5)
-        if (self.debug):
-            print("Final pre-scale: %d" % prescale)
-
-        oldmode = self.read(self.__MODE1)
-        newmode = (oldmode & 0x7F) | 0x10  # sleep
-        self.write(self.__MODE1, newmode)  # go to sleep
-        self.write(self.__PRESCALE, int(math.floor(prescale)))
-        self.write(self.__MODE1, oldmode)
+        self.write(self.__MODE1, 0x10)  # go to sleep
         time.sleep(0.005)
-        self.write(self.__MODE1, oldmode | 0x80)
+        self.write(self.__PRESCALE, int(math.floor(prescale)))
+        time.sleep(0.005)
+        self.write(self.__MODE1, 0x80)
+        time.sleep(0.005)
+        self.write(self.__MODE1, 0x00)
 
     def setPWM(self, channel, on, off):
         "Sets a single PWM channel"
@@ -91,14 +91,15 @@ class PCA9685:
 
 
 broker_address = "127.0.0.1"
-client = mqtt.Client("Motor")
+client = mqtt.Client("Servos")
 client.connect(broker_address)
 client.subscribe("servos/#", 1)
 
 pwm = PCA9685(0x40, debug=False)
 pwm.setPWMFreq(100)
-pwm.setServoPulse(0,1500)
-pwm.setServoPulse(1,1500)
+pwm.servo0 = 1500
+pwm.servo1 = 1500
+pwm.apply_and_sleep_again()
 
 
 def on_message(client, userdata, message):
@@ -109,15 +110,16 @@ def on_message(client, userdata, message):
     if topic == "servos/0":
         value = int(payload)
         print("value ", value)
-        pwm.setServoPulse(0, max(1000, min(2000, value)))
+        pwm.servo0 = max(1000, min(2000, value))
+        pwm.apply_and_sleep_again()
     if topic == "servos/1":
         value = int(payload)
         print("value ", value)
-        pwm.setServoPulse(1, max(1000, min(2000, value)))
+        pwm.servo1 = max(1000, min(2000, value))
+        pwm.apply_and_sleep_again()
 
 
 client.on_message = on_message
 client.loop_start()
 while True:
     sleep(1)
-client.loop_stop()
