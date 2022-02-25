@@ -166,7 +166,12 @@ A Directory Browser appears, choose the alphabot2-pi-zero remote folder.
 There will be some remote vs code server installation going on after your choice.
 
 Now you are good to go.
-
+# Services
+## Start services
+```
+python alphabot2-pi-zero/root/actor/servos.py&
+python alphabot2-pi-zero/root/actor/motor.py&
+```
 # Architecture
 
 It has been a proven concept to use the same architecture for robots as for microservices, just in a smaller scope. So the main idea is to have a local message broker (ZMQ - Zero Message Queue for example) and then the sensors and actors communicate with each other over messages.

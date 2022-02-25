@@ -15,6 +15,30 @@
          (mousemove)="joystickRightMouseMove($event)"
     ></div>
   </mat-card-content>
+
+  <mat-card-content>
+    <h2>Thrust</h2>
+    <mat-slider
+      min="-100"
+      max="100"
+      step="1"
+      [value]="thrust"
+      [(ngModel)]="thrust"
+      (input)="onThrustChange($event)">
+    </mat-slider>
+  </mat-card-content>
+  <mat-card-content>
+    <h2>Steering</h2>
+    <mat-slider
+      min="-100"
+      max="100"
+      step="1"
+      [value]="steering"
+      [(ngModel)]="steering"
+      (input)="onSteeringChange($event)">
+    </mat-slider>
+  </mat-card-content>
+
   <mat-card-content *ngFor="let b of motors; let i = index ; trackBy: indexTracker">
     <h2>Motor {{i}}: {{motors[i]}}</h2>
     <mat-slider
