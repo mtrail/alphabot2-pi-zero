@@ -1,7 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {MessagingClient} from './messaging-client/messaging-client';
 import {MatSliderChange} from '@angular/material/slider';
 import {audit, BehaviorSubject, interval} from 'rxjs';
+import {JoystickEvent, NgxJoystickComponent} from 'ngx-joystick';
+import {JoystickManagerOptions, JoystickOutputData} from 'nipplejs';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +21,14 @@ export class AppComponent {
   private servo1 = new BehaviorSubject(1500);
   private motorLeft = new BehaviorSubject(0);
   private motorRight = new BehaviorSubject(0);
+
+  @ViewChild('dynamicJoystick') dynamicJoystick: NgxJoystickComponent | undefined;
+  public dynamicOptions: JoystickManagerOptions = {
+    mode: 'dynamic',
+    color: 'red',
+    multitouch: true,
+  };
+  public dynamicOutputData: JoystickOutputData | undefined;
 
   constructor(private messaging: MessagingClient) {
     messaging.observe$("#").subscribe(message =>
@@ -42,93 +52,15 @@ export class AppComponent {
   ngOnInit(): void {
   }
 
-  public onThrustChange($event: MatSliderChange): void {
-    this.thrust = $event.value as number;
-    this.calculateMotors();
-  }
-
-  public onSteeringChange($event: MatSliderChange): void {
-    this.steering = $event.value as number;
-    this.calculateMotors();
-  }
-
-  private calculateMotors(): void {
-    this.motors[0] = this.thrust - this.steering;
-    this.motors[1] = this.thrust + this.steering;
-    this.motorLeft.next(this.motors[0]);
-    this.motorRight.next(this.motors[1]);
-  }
-
-  public onChangeMotor($event: MatSliderChange, number: number): void {
-    // this.servos[number] = $event.value;
-    console.info(number, $event.value);
-    if (number === 0) {
-      this.motorLeft.next($event.value as number);
+  onMoveDynamic(event: JoystickEvent) {
+    this.dynamicOutputData = event.data;
+    if (this.dynamicOutputData) {
+      console.log('dynamic x:' + this.dynamicOutputData.instance.frontPosition.x + ' y:' + this.dynamicOutputData.instance.frontPosition.y);
     }
-    if (number === 1) {
-      this.motorRight.next($event.value as number);
+    else {
+      console.log('dynamic x: 0 y:0');
     }
   }
 
-  public onChangeServo($event: MatSliderChange, number: number): void {
-    // this.servos[number] = $event.value;
-    console.info(number, $event.value);
-    if (number === 0) {
-      this.servo0.next($event.value as number);
-    }
-    if (number === 1) {
-      this.servo1.next($event.value as number);
-    }
-  }
 
-  public indexTracker(index: number, value: any): number {
-    return index;
-  }
-
-  public joystickLeftMouseDown($event: MouseEvent): void {
-    // console.info($event);
-    this.leftDown[0] = $event.clientX;
-    this.leftDown[1] = $event.clientY;
-  }
-
-  public joystickLeftMouseEnter($event: MouseEvent): void {
-    console.info($event);
-    if ($event.button) {
-      this.leftDown[0] = $event.clientX;
-      this.leftDown[1] = $event.clientY;
-    }
-  }
-
-  public joystickLeftMouseUp($event: MouseEvent): void {
-    // console.info($event);
-    this.leftDown[0] = -1;
-    this.leftDown[1] = -1;
-
-    this.thrust = 0;
-    this.steering = 0;
-    this.calculateMotors();
-  }
-
-  public joystickLeftMouseMove($event: MouseEvent): void {
-    if (this.leftDown[0] > 0) {
-      const x = this.leftDown[0] - $event.clientX;
-      const y = this.leftDown[1] - $event.clientY;
-      console.info({x: x, y: y});
-      this.thrust = y;
-      this.steering = Math.floor(x / 10);
-      this.calculateMotors();
-    }
-  }
-
-  public joystickRightMouseDown($event: MouseEvent): void {
-    // console.info($event);
-  }
-
-  public joystickRightMouseUp($event: MouseEvent): void {
-    // console.info($event);
-  }
-
-  public joystickRightMouseMove($event: MouseEvent): void {
-    // console.info($event);
-  }
 }

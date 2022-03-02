@@ -1,4 +1,9 @@
 :host {
+  .stream{
+    height: 480px;
+    width: 640px;
+    background-color: lightblue;
+  }
   .joystick {
     display: flex;
 

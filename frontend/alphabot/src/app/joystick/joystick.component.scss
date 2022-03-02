@@ -1,0 +1,26 @@
+:host {
+  .stream {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    height: 480px;
+    width: 640px;
+    background-color: transparent;
+  }
+
+  .joystick-left {
+    position: absolute;
+    height: 480px;
+    width: 640px;
+    //width: 320px;
+    background-color: transparent;
+  }
+
+  .joystick-right {
+    position: absolute;
+    left: 320px;
+    height: 480px;
+    width: 320px;
+    background-color: transparent;
+  }
+}
